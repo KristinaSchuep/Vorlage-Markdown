@@ -1,0 +1,188 @@
+---
+output: 
+    bookdown::pdf_document2:
+      includes:
+        in_header: front/import.sty
+        before_body: front/title.sty # hier ist die Titelseite drin
+        # after_body: tail.sty
+      keep_tex: yes
+      toc: true # table of contents - Inhaltsverzeichnis
+      toc_depth: 2
+      number_sections: yes
+      df_print: kable
+      extra_dependencies: ["flafter"] # to force Latex to float tables and figures forward
+
+# Schriftgrösse 11pt, Default Zeilenabstand 1.5
+fontsize: 11pt
+linestretch: "`r (lstr <- 1.5)`" 
+# header-includes:
+#    - \linespread{1.5} # 1.5 Zeilenabstand - anders geloest (s. oben)
+      
+# knit: (function(inputFile, encoding) {
+#     rmarkdown::render(inputFile, encoding = encoding, output_dir = "publication")
+#   })
+# bibliography: bib/bibliography.bib
+# csl: bib/taylor-and-francis-harvard-x.csl
+---
+
+```{r setup, comment=FALSE, message = FALSE, echo=FALSE, warning=FALSE}
+# rm(list=ls())           # Clean the environment - better to restart R before knitting
+# !diagnostics off        # RStudio diagnostics off
+
+# Set the knit working directory to the project directory
+knitr::opts_knit$set(
+  root.dir = rprojroot::find_rstudio_root_file())
+
+# Definiert Funktion um in Code Chunks Zeilenabstand zu verkleinern & Schriftgrösse zu ändern
+def.source.hook  <- knitr::knit_hooks$get("source")
+knitr::knit_hooks$set(source = function(x, options) {
+  x <- def.source.hook(x, options)
+  x <- ifelse(!is.null(options$linestretch),
+              paste0("\\linespread{", 
+                     options$linestretch,
+                     "}\n", x, "\n\n\\linespread{", lstr,"}"),
+              x)
+  ifelse(!is.null(options$size),
+         paste0("\\", options$size,"\n\n", x, "\n\n \\normalsize"),
+         x)
+})
+
+# Here we set the R code invisible to not show when the document is rendered
+# and we set the default linestretch and font size in chunks
+knitr::opts_chunk$set(
+  comment = "", message = FALSE, echo = TRUE, warning = FALSE,
+  linestretch = 1, 
+  size = "small"
+  # out.width = "100%",
+  # fig.width = 12,
+  # fig.height = 6,
+  # fig.path = 'Figures/',
+  # strip.white = T,
+  # dev = "png",
+  # dev.args = list(png = list(bg = "#f5f5f2"))
+  )
+
+# R options to display numbers
+options(scipen = 1, digits = 1) # numbers >= 10^5 will be denoted in scientific notation, and rounded to 1 digit
+options(digits.secs = 6)  # use milliseconds in Date/Time data types
+# options(warning = FALSE)  # don't show warnings
+```
+
+
+```{r packages, echo = FALSE}
+# Load first these packages:
+
+```
+
+\newpage
+
+# Einführung 
+
+Das ist nur eine ganz kurze Vorlage, der Code funktioniert auch nicht, weil die Daten fehlen. Aber sollte für die paar mühsameren Formatierungen (Tabellen, Grafiken) den relevanten Code drin haben.  
+
+# Titel
+
+## Untertitel
+
+* Unter Help > "Mardown Quick Reference" hat es die wichtigsten Formatierungen
+
+* blabla
+
+## R-Code einbinden:
+
+jeder Code-Chunk sollte ein label haben, vereinfacht Debugging
+
+echo = TRUE --> Code & Output anzeigen
+
+include = TRUE --> nur Output anzeigen (ohne Code)
+
+eval = FALSE --> Code nicht ausführen 
+
+
+## Tabelle erstellen
+
+Am einfachsten ist es, die Tabelle als dataframe zu erstellen, abzuspeichern und dann mit knittr zu formatieren:
+
+```{r freq-source-see, eval = FALSE}
+# See frequency of all apps
+tmp <- tw %>% count(source, sort = TRUE) %>% 
+  head(n = 10)
+knitr::kable(tmp, format = "latex", booktabs = TRUE, digits = 2, linesep = "",
+             caption = "Die häufigsten Applikationen",
+             col.names = c("Applikation", "Anzahl Tweets")) %>%
+  kableExtra::kable_styling(full_width = FALSE, 
+                            position = "center",
+                            #latex_options = "hold_position",
+                            latex_options = "striped")
+```
+
+Sehr breite Tabellen verkleinern:
+
+```{r users-loc-see, eval = FALSE}
+tmp <- select(ungroup(users), location, res_long, res_lat, res_address, res_country) %>% 
+  head()
+
+knitr::kable(tmp, format = "latex", booktabs = TRUE, digits = 2, linesep = "",
+             caption = "Zuordnung des Herkunftslandes",
+             col.names = c("Standort", "Logitude","Latitude", "Adresse", "Land")) %>%
+  kableExtra::kable_styling(full_width = TRUE, 
+                            position = "center",
+                            latex_options = c("striped", "hold_position")
+                            ) %>%
+  kableExtra::column_spec(1, width = "10em") %>%
+              column_spec(2:3, width = "5em") %>%
+              column_spec(4, width = "10em")
+```
+
+## Grafiken
+
+Beschriftung von Grafiken und weitere Formatierung (Breite, Ausrichtung) direkt im Header des Codes.
+
+```{r botornot-plot, eval = FALSE, out.width = '70%', fig.cap = "Geschätzte Wahrscheinlichkeit, dass Twitterkonto ein Bot ist", fig.align = "center"}
+# Plot distribution of probabilities
+ggplot(pbot, aes(prob_bot)) + 
+  geom_density(kernel = "gaussian", color = "#C84630", fill = "#C84630", alpha = 0.3) +
+  labs(x = "Wahrscheinlichkeit", y = "Dichte")  + 
+  theme_gray() +
+  theme(
+    panel.grid.major = element_line(color = "#DDDDDA", size = 0.2),
+      panel.grid.minor = element_blank(),
+      plot.background = element_rect(fill = "#f5f5f2", color = NA), 
+      panel.background = element_rect(fill = "#f5f5f2", color = NA), 
+      legend.background = element_rect(fill = "#f5f5f2", color = NA)
+  )
+```
+
+Mit folgendem Code kann im Text auf bestimmte Grafiken (fig:) bzw. Tabellen (tab:) verlinkt werden:
+
+\@ref(fig:botornot-plot)
+
+Manchmal ist es einfacher, die Grösse einer Grafik mit ggsave() einzustellen, sprich die Grafik wird zuerst mit der richtige Grösse exportiert und dann wieder importiert mit include_graphics() 
+
+```{r plot-routes-world, eval = FALSE}
+p <- ggplot() + 
+  # draw countries
+  geom_polygon(data = world, aes(x = long, 
+                                       y = lat, 
+                                       group = group), 
+                 fill = "#D8D8D2") +
+  theme_map() +
+  labs(x = NULL,
+       y = NULL) +
+  theme(legend.position = "none",
+        strip.text.y = element_text(size = 30))
+ggsave("figures/worldplot.pdf", p, width = 16, height = 17)
+```
+
+```{r plot-routes-world2, eval = FALSE, fig.cap = "Reiserouten weltweit in der Periode vom 2. Februar 2020 bis am 26. April 2020", fig.align = "center", out.width = "90%"}
+knitr::include_graphics("figures/worldplot.pdf")
+```
+
+## Funktionen:
+
+Müssen immer von zwei Dollarzeichen umgeben sein (Funktion auf eigener Zeile): 
+
+$$r_{cm} = {1 \over N} \sum_{i \in L} n_{i}r_{i}$$
+
+oder von einem Dollarzeichen (inline-Funktion): $r_{i}$
+

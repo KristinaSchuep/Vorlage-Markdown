@@ -1,0 +1,429 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  11pt,
+]{article}
+\usepackage{lmodern}
+\usepackage{setspace}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% \usepackage{setspace}
+% % this is a lorem ipsum generator for adding dummy texts
+% \usepackage{lipsum}
+% \usepackage{tocloft}
+% % to make the first rows bold in tables
+% \usepackage{longtable}
+% \usepackage{tabu}
+% \usepackage{booktabs}
+% % this makes list of figures appear in table of contents
+% \usepackage[nottoc]{tocbibind}
+% 
+% % for passing temporary notes
+% % \usepackage{todonotes}
+% 
+% \usepackage{morefloats}
+% \usepackage{float}
+% 
+% % highlighting
+% \usepackage{soul}
+% 
+% % referencing mutliple things with a single command - \cref
+% \usepackage{cleveref}
+% 
+% 
+% % this makes dots in table of contents
+% \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+% % to change the title of contents
+% % \renewcommand{\contentsname}{Whatever}
+% 
+% % line numbers for review purposes
+% % this package might not be available in default latex installation 
+% % get it by 'sudo tlmgr install lineno'
+% %\usepackage{lineno}
+% %\linenumbers
+% 
+% % this allows checkmarks in the file
+% \usepackage{amssymb}
+% \DeclareUnicodeCharacter{2714}{\checkmark}
+% 
+% % to be able to include latex comments
+% \newenvironment{dummy}{}{}
+
+
+
+
+% Universitaet Bern Vorlate LaTex
+% \documentclass[12pt,a4paper]{article}
+
+
+% formatting
+% \usepackage[left=4cm, right=3cm, top=3cm, bottom=3cm]{geometry}
+
+% package for nonstandard letters (umlauts etc)
+\usepackage{german}
+\usepackage[utf8]{inputenc} 
+
+%% Mathematics
+\usepackage{amsmath,amsfonts,amssymb}
+
+%% Graphics
+\usepackage{graphicx}
+
+%% For nice tables
+\usepackage{booktabs}
+
+%% Line spacing
+%\renewcommand{\baselinestretch}{1.5}
+
+%% Bibliography
+% \usepackage{natbib}
+
+%% to avoid messy linebreaks
+\sloppy
+
+\usepackage{csquotes} % deutsche Anfuehrungszeichen
+\MakeOuterQuote{"}
+
+
+
+
+
+\usepackage{flafter}
+
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+
+% Universitaet Bern template
+% \begin{document}
+
+\thispagestyle{empty}
+\ \vspace{1.0cm}
+\begin{center}
+{\LARGE
+Titel\\[0.1cm]
+der Arbeit\\[1cm]
+}
+
+{
+{\bf Seminararbeit} \\
+an der \\[0.5cm]
+{\bf Wirtschafts- und Sozialwissenschaftlichen Fakult\"at} \\
+{\bf der Universit\"at Bern} \\[0.5cm]
+bei \\
+Dr. Costanza Naguib\\[8cm]
+}
+
+
+\hspace{1cm}\begin{minipage}[h]{20cm}
+\begin{tabbing}
+Mastervorlesung: Machine Learning\\
+Abgabedatum: 01.06.2020\\[0.5cm]
+Ladina Brantschen \hspace{4cm} \= Johannes von Mandach \\
+XXXXXX \> XXXXXXX \\
+ladina.brantschen@students.unibe.ch \> johannes.vonmandach@students.unibe.ch \\[0.5cm]
+Kristina Schüpbach \hspace{4cm} \= Carla Coccia \\
+14-116-040 \> XXXXXXX \\
+kristina.schuepbach@students.unibe.ch \> carla.coccia@students.unibe.ch \\
+
+\end{tabbing}
+\end{minipage}
+\end{center}
+\newpage
+
+
+
+%\begin{abstract}
+%Dieses rudiment\"are Template dient als Einstiegshilfe f\"ur die Arbeit mit \LaTeX. Diese Software kann kostenlos aus dem Internet heruntergeladen werden und sollte im Selbststudium angeignet werden; viele Tipps und Tricks finden Sie ebenfalls im Internet.   
+%\end{abstract}
+%\newpage
+
+% 
+% 
+% \tableofcontents
+% \newpage
+
+
+
+
+
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\setstretch{1.5}
+\newpage
+
+\hypertarget{einfuxfchrung}{%
+\section{Einführung}\label{einfuxfchrung}}
+
+Das ist nur eine ganz kurze Vorlage, der Code funktioniert auch nicht, weil die Daten fehlen. Aber sollte für die paar mühsameren Formatierungen (Tabellen, Grafiken) den relevanten Code drin haben.
+
+\hypertarget{titel}{%
+\section{Titel}\label{titel}}
+
+\hypertarget{untertitel}{%
+\subsection{Untertitel}\label{untertitel}}
+
+\begin{itemize}
+\item
+  Unter Help \textgreater{} ``Mardown Quick Reference'' hat es die wichtigsten Formatierungen
+\item
+  blabla
+\end{itemize}
+
+\hypertarget{r-code-einbinden}{%
+\subsection{R-Code einbinden:}\label{r-code-einbinden}}
+
+jeder Code-Chunk sollte ein label haben, vereinfacht Debugging
+
+echo = TRUE --\textgreater{} Code \& Output anzeigen
+
+include = TRUE --\textgreater{} nur Output anzeigen (ohne Code)
+
+eval = FALSE --\textgreater{} Code nicht ausführen
+
+\hypertarget{tabelle-erstellen}{%
+\subsection{Tabelle erstellen}\label{tabelle-erstellen}}
+
+Am einfachsten ist es, die Tabelle als dataframe zu erstellen, abzuspeichern und dann mit knittr zu formatieren:
+
+\small
+
+\linespread{1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# See frequency of all apps}
+\NormalTok{tmp \textless{}{-}}\StringTok{ }\NormalTok{tw }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{count}\NormalTok{(source, }\DataTypeTok{sort =} \OtherTok{TRUE}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
+\StringTok{  }\KeywordTok{head}\NormalTok{(}\DataTypeTok{n =} \DecValTok{10}\NormalTok{)}
+\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(tmp, }\DataTypeTok{format =} \StringTok{"latex"}\NormalTok{, }\DataTypeTok{booktabs =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{, }\DataTypeTok{linesep =} \StringTok{""}\NormalTok{,}
+             \DataTypeTok{caption =} \StringTok{"Die häufigsten Applikationen"}\NormalTok{,}
+             \DataTypeTok{col.names =} \KeywordTok{c}\NormalTok{(}\StringTok{"Applikation"}\NormalTok{, }\StringTok{"Anzahl Tweets"}\NormalTok{)) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\NormalTok{kableExtra}\OperatorTok{::}\KeywordTok{kable\_styling}\NormalTok{(}\DataTypeTok{full\_width =} \OtherTok{FALSE}\NormalTok{, }
+                            \DataTypeTok{position =} \StringTok{"center"}\NormalTok{,}
+                            \CommentTok{\#latex\_options = "hold\_position",}
+                            \DataTypeTok{latex\_options =} \StringTok{"striped"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\linespread{1.5}
+
+\normalsize
+
+Sehr breite Tabellen verkleinern:
+
+\small
+
+\linespread{1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tmp \textless{}{-}}\StringTok{ }\KeywordTok{select}\NormalTok{(}\KeywordTok{ungroup}\NormalTok{(users), location, res\_long, res\_lat, res\_address, res\_country) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
+\StringTok{  }\KeywordTok{head}\NormalTok{()}
+
+\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(tmp, }\DataTypeTok{format =} \StringTok{"latex"}\NormalTok{, }\DataTypeTok{booktabs =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{, }\DataTypeTok{linesep =} \StringTok{""}\NormalTok{,}
+             \DataTypeTok{caption =} \StringTok{"Zuordnung des Herkunftslandes"}\NormalTok{,}
+             \DataTypeTok{col.names =} \KeywordTok{c}\NormalTok{(}\StringTok{"Standort"}\NormalTok{, }\StringTok{"Logitude"}\NormalTok{,}\StringTok{"Latitude"}\NormalTok{, }\StringTok{"Adresse"}\NormalTok{, }\StringTok{"Land"}\NormalTok{)) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\NormalTok{kableExtra}\OperatorTok{::}\KeywordTok{kable\_styling}\NormalTok{(}\DataTypeTok{full\_width =} \OtherTok{TRUE}\NormalTok{, }
+                            \DataTypeTok{position =} \StringTok{"center"}\NormalTok{,}
+                            \DataTypeTok{latex\_options =} \KeywordTok{c}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\StringTok{"hold\_position"}\NormalTok{)}
+\NormalTok{                            ) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\NormalTok{kableExtra}\OperatorTok{::}\KeywordTok{column\_spec}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DataTypeTok{width =} \StringTok{"10em"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{              }\KeywordTok{column\_spec}\NormalTok{(}\DecValTok{2}\OperatorTok{:}\DecValTok{3}\NormalTok{, }\DataTypeTok{width =} \StringTok{"5em"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{              }\KeywordTok{column\_spec}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DataTypeTok{width =} \StringTok{"10em"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\linespread{1.5}
+
+\normalsize
+
+\hypertarget{grafiken}{%
+\subsection{Grafiken}\label{grafiken}}
+
+Beschriftung von Grafiken und weitere Formatierung (Breite, Ausrichtung) direkt im Header des Codes.
+
+\small
+
+\linespread{1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plot distribution of probabilities}
+\KeywordTok{ggplot}\NormalTok{(pbot, }\KeywordTok{aes}\NormalTok{(prob\_bot)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom\_density}\NormalTok{(}\DataTypeTok{kernel =} \StringTok{"gaussian"}\NormalTok{, }\DataTypeTok{color =} \StringTok{"\#C84630"}\NormalTok{, }\DataTypeTok{fill =} \StringTok{"\#C84630"}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{0.3}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Wahrscheinlichkeit"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Dichte"}\NormalTok{)  }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{theme\_gray}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}
+    \DataTypeTok{panel.grid.major =} \KeywordTok{element\_line}\NormalTok{(}\DataTypeTok{color =} \StringTok{"\#DDDDDA"}\NormalTok{, }\DataTypeTok{size =} \FloatTok{0.2}\NormalTok{),}
+      \DataTypeTok{panel.grid.minor =} \KeywordTok{element\_blank}\NormalTok{(),}
+      \DataTypeTok{plot.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"\#f5f5f2"}\NormalTok{, }\DataTypeTok{color =} \OtherTok{NA}\NormalTok{), }
+      \DataTypeTok{panel.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"\#f5f5f2"}\NormalTok{, }\DataTypeTok{color =} \OtherTok{NA}\NormalTok{), }
+      \DataTypeTok{legend.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"\#f5f5f2"}\NormalTok{, }\DataTypeTok{color =} \OtherTok{NA}\NormalTok{)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\linespread{1.5}
+
+\normalsize
+
+Mit folgendem Code kann im Text auf bestimmte Grafiken (fig:) bzw. Tabellen (tab:) verlinkt werden:
+
+\ref{fig:botornot-plot}
+
+Manchmal ist es einfacher, die Grösse einer Grafik mit ggsave() einzustellen, sprich die Grafik wird zuerst mit der richtige Grösse exportiert und dann wieder importiert mit include\_graphics()
+
+\small
+
+\linespread{1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p \textless{}{-}}\StringTok{ }\KeywordTok{ggplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\CommentTok{\# draw countries}
+\StringTok{  }\KeywordTok{geom\_polygon}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ world, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ long, }
+                                       \DataTypeTok{y =}\NormalTok{ lat, }
+                                       \DataTypeTok{group =}\NormalTok{ group), }
+                 \DataTypeTok{fill =} \StringTok{"\#D8D8D2"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme\_map}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \OtherTok{NULL}\NormalTok{,}
+       \DataTypeTok{y =} \OtherTok{NULL}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{,}
+        \DataTypeTok{strip.text.y =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{size =} \DecValTok{30}\NormalTok{))}
+\KeywordTok{ggsave}\NormalTok{(}\StringTok{"figures/worldplot.pdf"}\NormalTok{, p, }\DataTypeTok{width =} \DecValTok{16}\NormalTok{, }\DataTypeTok{height =} \DecValTok{17}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\linespread{1.5}
+
+\normalsize
+
+\small
+
+\linespread{1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\OperatorTok{::}\KeywordTok{include\_graphics}\NormalTok{(}\StringTok{"figures/worldplot.pdf"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\linespread{1.5}
+
+\normalsize
+
+\hypertarget{funktionen}{%
+\subsection{Funktionen:}\label{funktionen}}
+
+Müssen immer von zwei Dollarzeichen umgeben sein (Funktion auf eigener Zeile):
+
+\[r_{cm} = {1 \over N} \sum_{i \in L} n_{i}r_{i}\]
+
+oder von einem Dollarzeichen (inline-Funktion): \(r_{i}\)
+
+\end{document}
