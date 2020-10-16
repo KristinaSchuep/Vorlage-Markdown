@@ -1,4 +1,4 @@
-# Vorlage-Markdown
+# Vorlage Seminararbeiten in Markdown
 Einfache Markdown-Vorlage für Seminararbeiten
 
 *Dokumente:*
