@@ -7,12 +7,13 @@
 ]{article}
 \usepackage{lmodern}
 \usepackage{setspace}
-\usepackage{amssymb,amsmath}
+\usepackage{amsmath}
 \usepackage{ifxetex,ifluatex}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
+  \usepackage{amssymb}
 \else % if luatex or xetex
   \usepackage{unicode-math}
   \defaultfontfeatures{Scale=MatchLowercase}
@@ -83,6 +84,7 @@
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs}
+\usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
 \makeatletter
@@ -190,6 +192,9 @@
 
 
 \usepackage{flafter}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
 
 \author{}
 \date{\vspace{-2.5em}}
@@ -298,15 +303,15 @@ Am einfachsten ist es, die Tabelle als dataframe zu erstellen, abzuspeichern und
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# See frequency of all apps}
-\NormalTok{tmp \textless{}{-}}\StringTok{ }\NormalTok{tw }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{count}\NormalTok{(source, }\DataTypeTok{sort =} \OtherTok{TRUE}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
-\StringTok{  }\KeywordTok{head}\NormalTok{(}\DataTypeTok{n =} \DecValTok{10}\NormalTok{)}
-\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(tmp, }\DataTypeTok{format =} \StringTok{"latex"}\NormalTok{, }\DataTypeTok{booktabs =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{, }\DataTypeTok{linesep =} \StringTok{""}\NormalTok{,}
-             \DataTypeTok{caption =} \StringTok{"Die häufigsten Applikationen"}\NormalTok{,}
-             \DataTypeTok{col.names =} \KeywordTok{c}\NormalTok{(}\StringTok{"Applikation"}\NormalTok{, }\StringTok{"Anzahl Tweets"}\NormalTok{)) }\OperatorTok{\%\textgreater{}\%}
-\StringTok{  }\NormalTok{kableExtra}\OperatorTok{::}\KeywordTok{kable\_styling}\NormalTok{(}\DataTypeTok{full\_width =} \OtherTok{FALSE}\NormalTok{, }
-                            \DataTypeTok{position =} \StringTok{"center"}\NormalTok{,}
+\NormalTok{tmp }\OtherTok{\textless{}{-}}\NormalTok{ tw }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(source, }\AttributeTok{sort =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{head}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{)}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(tmp, }\AttributeTok{format =} \StringTok{"latex"}\NormalTok{, }\AttributeTok{booktabs =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{digits =} \DecValTok{2}\NormalTok{, }\AttributeTok{linesep =} \StringTok{""}\NormalTok{,}
+             \AttributeTok{caption =} \StringTok{"Die häufigsten Applikationen"}\NormalTok{,}
+             \AttributeTok{col.names =} \FunctionTok{c}\NormalTok{(}\StringTok{"Applikation"}\NormalTok{, }\StringTok{"Anzahl Tweets"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  kableExtra}\SpecialCharTok{::}\FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{full\_width =} \ConstantTok{FALSE}\NormalTok{, }
+                            \AttributeTok{position =} \StringTok{"center"}\NormalTok{,}
                             \CommentTok{\#latex\_options = "hold\_position",}
-                            \DataTypeTok{latex\_options =} \StringTok{"striped"}\NormalTok{)}
+                            \AttributeTok{latex\_options =} \StringTok{"striped"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -322,19 +327,19 @@ Sehr breite Tabellen verkleinern:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{tmp \textless{}{-}}\StringTok{ }\KeywordTok{select}\NormalTok{(}\KeywordTok{ungroup}\NormalTok{(users), location, res\_long, res\_lat, res\_address, res\_country) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
-\StringTok{  }\KeywordTok{head}\NormalTok{()}
+\NormalTok{tmp }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(}\FunctionTok{ungroup}\NormalTok{(users), location, res\_long, res\_lat, res\_address, res\_country) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{head}\NormalTok{()}
 
-\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(tmp, }\DataTypeTok{format =} \StringTok{"latex"}\NormalTok{, }\DataTypeTok{booktabs =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{, }\DataTypeTok{linesep =} \StringTok{""}\NormalTok{,}
-             \DataTypeTok{caption =} \StringTok{"Zuordnung des Herkunftslandes"}\NormalTok{,}
-             \DataTypeTok{col.names =} \KeywordTok{c}\NormalTok{(}\StringTok{"Standort"}\NormalTok{, }\StringTok{"Logitude"}\NormalTok{,}\StringTok{"Latitude"}\NormalTok{, }\StringTok{"Adresse"}\NormalTok{, }\StringTok{"Land"}\NormalTok{)) }\OperatorTok{\%\textgreater{}\%}
-\StringTok{  }\NormalTok{kableExtra}\OperatorTok{::}\KeywordTok{kable\_styling}\NormalTok{(}\DataTypeTok{full\_width =} \OtherTok{TRUE}\NormalTok{, }
-                            \DataTypeTok{position =} \StringTok{"center"}\NormalTok{,}
-                            \DataTypeTok{latex\_options =} \KeywordTok{c}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\StringTok{"hold\_position"}\NormalTok{)}
-\NormalTok{                            ) }\OperatorTok{\%\textgreater{}\%}
-\StringTok{  }\NormalTok{kableExtra}\OperatorTok{::}\KeywordTok{column\_spec}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DataTypeTok{width =} \StringTok{"10em"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
-\StringTok{              }\KeywordTok{column\_spec}\NormalTok{(}\DecValTok{2}\OperatorTok{:}\DecValTok{3}\NormalTok{, }\DataTypeTok{width =} \StringTok{"5em"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
-\StringTok{              }\KeywordTok{column\_spec}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DataTypeTok{width =} \StringTok{"10em"}\NormalTok{)}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(tmp, }\AttributeTok{format =} \StringTok{"latex"}\NormalTok{, }\AttributeTok{booktabs =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{digits =} \DecValTok{2}\NormalTok{, }\AttributeTok{linesep =} \StringTok{""}\NormalTok{,}
+             \AttributeTok{caption =} \StringTok{"Zuordnung des Herkunftslandes"}\NormalTok{,}
+             \AttributeTok{col.names =} \FunctionTok{c}\NormalTok{(}\StringTok{"Standort"}\NormalTok{, }\StringTok{"Logitude"}\NormalTok{,}\StringTok{"Latitude"}\NormalTok{, }\StringTok{"Adresse"}\NormalTok{, }\StringTok{"Land"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  kableExtra}\SpecialCharTok{::}\FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{full\_width =} \ConstantTok{TRUE}\NormalTok{, }
+                            \AttributeTok{position =} \StringTok{"center"}\NormalTok{,}
+                            \AttributeTok{latex\_options =} \FunctionTok{c}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\StringTok{"hold\_position"}\NormalTok{)}
+\NormalTok{                            ) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  kableExtra}\SpecialCharTok{::}\FunctionTok{column\_spec}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{width =} \StringTok{"10em"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+              \FunctionTok{column\_spec}\NormalTok{(}\DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{, }\AttributeTok{width =} \StringTok{"5em"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+              \FunctionTok{column\_spec}\NormalTok{(}\DecValTok{4}\NormalTok{, }\AttributeTok{width =} \StringTok{"10em"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -354,16 +359,16 @@ Beschriftung von Grafiken und weitere Formatierung (Breite, Ausrichtung) direkt 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Plot distribution of probabilities}
-\KeywordTok{ggplot}\NormalTok{(pbot, }\KeywordTok{aes}\NormalTok{(prob\_bot)) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{geom\_density}\NormalTok{(}\DataTypeTok{kernel =} \StringTok{"gaussian"}\NormalTok{, }\DataTypeTok{color =} \StringTok{"\#C84630"}\NormalTok{, }\DataTypeTok{fill =} \StringTok{"\#C84630"}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{0.3}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Wahrscheinlichkeit"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Dichte"}\NormalTok{)  }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{theme\_gray}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}
-    \DataTypeTok{panel.grid.major =} \KeywordTok{element\_line}\NormalTok{(}\DataTypeTok{color =} \StringTok{"\#DDDDDA"}\NormalTok{, }\DataTypeTok{size =} \FloatTok{0.2}\NormalTok{),}
-      \DataTypeTok{panel.grid.minor =} \KeywordTok{element\_blank}\NormalTok{(),}
-      \DataTypeTok{plot.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"\#f5f5f2"}\NormalTok{, }\DataTypeTok{color =} \OtherTok{NA}\NormalTok{), }
-      \DataTypeTok{panel.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"\#f5f5f2"}\NormalTok{, }\DataTypeTok{color =} \OtherTok{NA}\NormalTok{), }
-      \DataTypeTok{legend.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"\#f5f5f2"}\NormalTok{, }\DataTypeTok{color =} \OtherTok{NA}\NormalTok{)}
+\FunctionTok{ggplot}\NormalTok{(pbot, }\FunctionTok{aes}\NormalTok{(prob\_bot)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_density}\NormalTok{(}\AttributeTok{kernel =} \StringTok{"gaussian"}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#C84630"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"\#C84630"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.3}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Wahrscheinlichkeit"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Dichte"}\NormalTok{)  }\SpecialCharTok{+} 
+  \FunctionTok{theme\_gray}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{panel.grid.major =} \FunctionTok{element\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"\#DDDDDA"}\NormalTok{, }\AttributeTok{size =} \FloatTok{0.2}\NormalTok{),}
+      \AttributeTok{panel.grid.minor =} \FunctionTok{element\_blank}\NormalTok{(),}
+      \AttributeTok{plot.background =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill =} \StringTok{"\#f5f5f2"}\NormalTok{, }\AttributeTok{color =} \ConstantTok{NA}\NormalTok{), }
+      \AttributeTok{panel.background =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill =} \StringTok{"\#f5f5f2"}\NormalTok{, }\AttributeTok{color =} \ConstantTok{NA}\NormalTok{), }
+      \AttributeTok{legend.background =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill =} \StringTok{"\#f5f5f2"}\NormalTok{, }\AttributeTok{color =} \ConstantTok{NA}\NormalTok{)}
 \NormalTok{  )}
 \end{Highlighting}
 \end{Shaded}
@@ -384,18 +389,18 @@ Manchmal ist es einfacher, die Grösse einer Grafik mit ggsave() einzustellen, s
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{p \textless{}{-}}\StringTok{ }\KeywordTok{ggplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\CommentTok{\# draw countries}
-\StringTok{  }\KeywordTok{geom\_polygon}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ world, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ long, }
-                                       \DataTypeTok{y =}\NormalTok{ lat, }
-                                       \DataTypeTok{group =}\NormalTok{ group), }
-                 \DataTypeTok{fill =} \StringTok{"\#D8D8D2"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme\_map}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \OtherTok{NULL}\NormalTok{,}
-       \DataTypeTok{y =} \OtherTok{NULL}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{,}
-        \DataTypeTok{strip.text.y =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{size =} \DecValTok{30}\NormalTok{))}
-\KeywordTok{ggsave}\NormalTok{(}\StringTok{"figures/worldplot.pdf"}\NormalTok{, p, }\DataTypeTok{width =} \DecValTok{16}\NormalTok{, }\DataTypeTok{height =} \DecValTok{17}\NormalTok{)}
+\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+} 
+  \CommentTok{\# draw countries}
+  \FunctionTok{geom\_polygon}\NormalTok{(}\AttributeTok{data =}\NormalTok{ world, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ long, }
+                                       \AttributeTok{y =}\NormalTok{ lat, }
+                                       \AttributeTok{group =}\NormalTok{ group), }
+                 \AttributeTok{fill =} \StringTok{"\#D8D8D2"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_map}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \ConstantTok{NULL}\NormalTok{,}
+       \AttributeTok{y =} \ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{,}
+        \AttributeTok{strip.text.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{30}\NormalTok{))}
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{"figures/worldplot.pdf"}\NormalTok{, p, }\AttributeTok{width =} \DecValTok{16}\NormalTok{, }\AttributeTok{height =} \DecValTok{17}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -409,7 +414,7 @@ Manchmal ist es einfacher, die Grösse einer Grafik mit ggsave() einzustellen, s
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{knitr}\OperatorTok{::}\KeywordTok{include\_graphics}\NormalTok{(}\StringTok{"figures/worldplot.pdf"}\NormalTok{)}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{include\_graphics}\NormalTok{(}\StringTok{"figures/worldplot.pdf"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
